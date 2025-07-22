@@ -1,9 +1,9 @@
 import os
-from modules_config import load_config
-from modules_excel_handler import read_input_excel, write_pending_to_excel
-from modules_image_processor import process_images
-from modules_organizer import organize_images
-from modules_utils import log_console
+from config import load_config
+from excel_handler import read_input_excel, write_pending_to_excel
+from image_processor import process_images
+from organizer import organize_images
+from utils import log_console
 
 def main():
     # Load config

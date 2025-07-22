@@ -1,7 +1,7 @@
 import os
 import shutil
 import pandas as pd
-from modules_utils import ensure_dir_exists, print_progress, log_console
+from utils import ensure_dir_exists, print_progress, log_console
 
 def organize_images(review_df, images_dir, output_dir, min_images, mode, review_csv):
     pending_list = []

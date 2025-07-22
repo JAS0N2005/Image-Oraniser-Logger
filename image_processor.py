@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 from collections import defaultdict
-from modules_utils import print_progress
+from utils import print_progress
 
 def process_images(data_df, images_dir, review_csv):
     image_files = os.listdir(images_dir)
