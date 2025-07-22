@@ -1,72 +1,37 @@
-# main.py
-
 import os
-import shutil
-import pandas as pd
-from config import (
-    INPUT_EXCEL_PATH, PHOTO_THRESHOLD,
-    PROCESS_START_ROW, PROCESS_END_ROW,
-    OUTPUT_BASE_DIR, PENDING_SUBDIR_NAME
-)
-from state_manager import load_state, save_state
-from image_scanner import scan_images
-from image_processor import copy_images_for_activity
-from pending_review import add_pending_review
-
-def process_rows():
-    last_processed = load_state()
-    df = pd.read_excel(INPUT_EXCEL_PATH, dtype=str)
-    required_cols = ['Name','Type','Website','Total_reviews','Google_Map_Link','ActivityId']
-    for col in required_cols:
-        if col not in df.columns:
-            print(f"ERROR: Column {col} not found in input Excel.")
-            return
-
-    image_map = scan_images()
-
-    for idx, row in df.iterrows():
-        if idx < PROCESS_START_ROW:
-            continue
-        if PROCESS_END_ROW is not None and idx > PROCESS_END_ROW:
-            continue
-        if idx <= last_processed:
-            continue
-
-        activityid = row['ActivityId']
-        paths = image_map.get(activityid, [])
-        copy_images_for_activity(activityid, paths)
-        count = len(paths)
-
-        if count < PHOTO_THRESHOLD:
-            # Buffer for pending review
-            add_pending_review({
-                'ActivityId': activityid,
-                'Name': row['Name'],
-                'Type': row['Type'],
-                'Website': row['Website'],
-                'Google_Map_Link': row['Google_Map_Link'],
-                'PhotoCount': count
-            })
-            # Move folder to Pending subdirectory
-            pending_base = os.path.join(OUTPUT_BASE_DIR, PENDING_SUBDIR_NAME)
-            os.makedirs(pending_base, exist_ok=True)
-            src = os.path.join(OUTPUT_BASE_DIR, activityid)
-            dst = os.path.join(pending_base, activityid)
-            if os.path.exists(dst):
-                shutil.rmtree(dst)
-            shutil.move(src, dst)
-
-        save_state(idx)
-        print(f"Processed row {idx} (ActivityId={activityid}): {count} images.")
+from modules_config import load_config
+from modules_excel_handler import read_input_excel, write_pending_to_excel
+from modules_image_processor import process_images
+from modules_organizer import organize_images
+from modules_utils import log_console
 
 def main():
-    try:
-        process_rows()
-    except KeyboardInterrupt:
-        print("Interrupted, exiting early.")
-    except Exception as e:
-        print(f"Error: {e}, exiting early.")
-    print("Done.")
+    # Load config
+    config = load_config()
+    INPUT_EXCEL = config['INPUT_EXCEL']
+    IMAGES_DIR = config['IMAGES_DIR']
+    OUTPUT_DIR = config['OUTPUT_DIR']
+    REVIEW_CSV = config['REVIEW_CSV']
+    MIN_IMAGES = config['MIN_IMAGES']
+    MODE = config['MODE']  # "COPY" or "MOVE"
 
-if __name__ == '__main__':
+    log_console("Loading input Excel data...")
+    data = read_input_excel(INPUT_EXCEL)
+    log_console(f"Loaded {len(data)} activity entries.")
+
+    log_console("Processing images and counting for each ActivityId...")
+    review_data = process_images(data, IMAGES_DIR, REVIEW_CSV)
+    log_console(f"Image count for activities written to {REVIEW_CSV}")
+
+    log_console("Organizing images into folders based on ActivityId...")
+    pending_data = organize_images(
+        review_data, IMAGES_DIR, OUTPUT_DIR, MIN_IMAGES, MODE, REVIEW_CSV
+    )
+    log_console("Image organization complete.")
+
+    log_console("Writing pending data to Excel...")
+    write_pending_to_excel(pending_data, OUTPUT_DIR)
+    log_console("All done!")
+
+if __name__ == "__main__":
     main()

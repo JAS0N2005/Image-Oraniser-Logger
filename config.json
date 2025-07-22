@@ -1,0 +1,8 @@
+{
+  "INPUT_EXCEL": "G:\\My Drive\\HireThen\\Internal - Flyberg Content\\Location Scrapping Info\\Shreya Dey for photos\\FINAL Charlotte.xlsx",
+  "IMAGES_DIR": "G:\\My Drive\\HireThen\\Internal - Flyberg Content\\POI BreakOut Pictures\\Charlotte",
+  "OUTPUT_DIR": "G:\\My Drive\\HireThen\\Internal - Flyberg Content\\POI BreakOut Pictures\\TEST 3.0",
+  "REVIEW_CSV": "PENDING FOR REVIEW.csv",
+  "MIN_IMAGES": 1,
+  "MODE": "COPY" 
+}
