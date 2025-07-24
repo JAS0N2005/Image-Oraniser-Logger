@@ -1,7 +1,7 @@
 import os
 import shutil
 import pandas as pd
-from utils import ensure_dir_exists, print_progress, log_console
+from utils import ensure_dir_exists, print_progress#, log_console
 
 def organize_images(review_df, images_dir, output_dir, min_images, mode, review_csv):
     pending_list = []
@@ -23,7 +23,7 @@ def organize_images(review_df, images_dir, output_dir, min_images, mode, review_
                 dst = os.path.join(subdir, file)
                 if mode == "MOVE":
                     shutil.move(src, dst)
-                else:
+                elif mode== "COPY":
                     shutil.copy2(src, dst)
         print_progress(idx+1, total, prefix='Organizing:', suffix=f"({aid})")
     # Only pending entries remain in the csv

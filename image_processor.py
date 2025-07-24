@@ -1,7 +1,5 @@
 import os
-import pandas as pd
 from collections import defaultdict
-from utils import print_progress
 
 def process_images(data_df, images_dir, review_csv):
     image_files = os.listdir(images_dir)
@@ -12,8 +10,7 @@ def process_images(data_df, images_dir, review_csv):
         if len(fragments) < 3:
             continue
         activity_id = fragments[0]
-        img_map[activity_id].append(img)
-    
+        img_map[activity_id].append(img) 
     # Add ImageCount to data
     data_df = data_df.copy()
     data_df['ImageCount'] = data_df['ActivityId'].astype(str).map(lambda aid: len(img_map.get(str(aid), [])))

@@ -1,4 +1,3 @@
-import os
 from config import load_config
 from excel_handler import read_input_excel, write_pending_to_excel
 from image_processor import process_images
