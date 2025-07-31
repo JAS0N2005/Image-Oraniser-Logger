@@ -1,8 +1,9 @@
+
 {
-  "INPUT_EXCEL": "I:\\My Drive\\HireThen\\Internal - Flyberg Content\\Location Scrapping Info\\Shreya Dey for photos\\FINAL Vancouver.xlsx",
-  "IMAGES_DIR": "I:\\My Drive\\HireThen\\Internal - Flyberg Content\\POI BreakOut Pictures\\Vancouver",
-  "OUTPUT_DIR": "I:\\My Drive\\HireThen\\Internal - Flyberg Content\\POI BreakOut Pictures\\Vancouver_OUTPUT",
+  "INPUT_EXCEL": "H:\\.shortcut-targets-by-id\\1U6_YhXzhyOt3_bZwnriDLTJWby5vsDL6\\Internal - Flyberg Content\\Location Scrapping Info\\Shreya Dey for photos\\FINAL Kyoto.xlsx",
+  "IMAGES_DIR": "H:\\.shortcut-targets-by-id\\1U6_YhXzhyOt3_bZwnriDLTJWby5vsDL6\\Internal - Flyberg Content\\POI BreakOut Pictures\\Kyoto",
+  "OUTPUT_DIR":"H:\\.shortcut-targets-by-id\\1U6_YhXzhyOt3_bZwnriDLTJWby5vsDL6\\Internal - Flyberg Content\\POI BreakOut Pictures\\Kyoto_location",
   "REVIEW_CSV": "PENDING FOR REVIEW.csv",
   "MIN_IMAGES": 1,
-  "MODE": "MOVE" 
+  "MODE": "COPY" 
 }
